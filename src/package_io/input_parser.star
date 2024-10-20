@@ -331,6 +331,13 @@ def input_parser(plan, input_args):
             mev_flood_seconds_per_bundle=result["mev_params"][
                 "mev_flood_seconds_per_bundle"
             ],
+            # PROF specifics
+            prof_sequencer_image=result["mev_params"]["prof_sequencer_image"],
+            prof_sequencer_extra_args=result["mev_params"]["prof_sequencer_extra_args"],
+            prof_sequencer_seconds_per_bundle=result["mev_params"][
+                "prof_sequencer_seconds_per_bundle"
+            ],
+            #
         )
         if result["mev_params"]
         else None,

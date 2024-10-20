@@ -58,6 +58,10 @@ get_prefunded_accounts = import_module(
     "./src/prefunded_accounts/get_prefunded_accounts.star"
 )
 
+# PROF specifics
+prof_sequencer = import_module("./src/mev/prof/sequencer/prof_sequencer_launcher.star")
+#
+
 GRAFANA_USER = "admin"
 GRAFANA_PASSWORD = "admin"
 GRAFANA_DASHBOARD_PATH_URL = "/d/QdTOwy-nz/eth2-merge-kurtosis-module-dashboard?orgId=1"
@@ -267,6 +271,14 @@ def run(plan, args={}):
             normal_user.private_key,
             global_node_selectors,
         )
+        # PROF specifics
+        prof_sequencer.launch_prof_sequencer(
+            plan,
+            mev_params.prof_sequencer_image,
+            fuzz_target,
+            global_node_selectors,
+        )
+        #
         epoch_recipe = GetHttpRequestRecipe(
             endpoint="/eth/v2/beacon/blocks/head",
             port_id=HTTP_PORT_ID_FOR_FACT,

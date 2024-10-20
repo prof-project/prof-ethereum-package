@@ -218,6 +218,11 @@ SUBCATEGORY_PARAMS = {
         "mev_flood_extra_args",
         "mev_flood_seconds_per_bundle",
         "custom_flood_params",
+        # PROF specifics
+        "prof_sequencer_image",
+        "prof_sequencer_extra_args",
+        "prof_sequencer_seconds_per_bundle",
+        #
     ],
     "xatu_sentry_params": [
         "xatu_sentry_image",
