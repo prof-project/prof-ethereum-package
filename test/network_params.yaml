@@ -1,0 +1,63 @@
+#ToDo: check if required, else remove
+## Global paarameter to set the exit ip address of services and public ports
+#port_publisher:
+#  # Execution Layer public port exposed to your local machine
+#  # Disabled by default
+#  # Public port start defaults to 32000
+#  # You can't run multiple enclaves on the same port settings
+#  el:
+#    enabled: true
+#    public_port_start: 32000
+#  # Consensus Layer public port exposed to your local machine
+#  # Disabled by default
+#  # Public port start defaults to 33000
+#  # You can't run multiple enclaves on the same port settings
+#  cl:
+#    enabled: true
+#    public_port_start: 33000
+
+# Supports three valeus
+# Default: "null" - no mev boost, mev builder, mev flood or relays are spun up
+# "mock" - mock-builder & mev-boost are spun up
+# "flashbots" - mev-boost, relays, flooder and builder are all spun up, powered by [flashbots](https://github.com/flashbots)
+# "mev-rs" - mev-boost, relays and builder are all spun up, powered by [mev-rs](https://github.com/ralexstokes/mev-rs/)
+# "commit-boost" - mev-boost, relays and builder are all spun up, powered by [commit-boost](https://github.com/Commit-Boost/commit-boost-client)
+# We have seen instances of multibuilder instances failing to start mev-relay-api with non zero epochs
+mev_type: flashbots
+
+# Parameters if MEV is used
+mev_params:
+  # The image to use for MEV boost relay
+  mev_relay_image: prof-project/prof-relay
+  # The image to use for the builder
+  mev_builder_image: prof-project/prof-builder
+  # The image to use for the CL builder
+  mev_builder_cl_image: sigp/lighthouse:latest
+  # The image to use for mev-boost
+  mev_boost_image: flashbots/mev-boost
+  # Parameters for MEV Boost. This overrides all arguments of the mev-boost container
+  mev_boost_args: []
+  # Extra parameters to send to the API
+  mev_relay_api_extra_args: []
+  # Extra parameters to send to the housekeeper
+  mev_relay_housekeeper_extra_args: []
+  # Extra parameters to send to the website
+  mev_relay_website_extra_args: []
+  # Extra parameters to send to the builder
+  mev_builder_extra_args: []
+  # Prometheus additional configuration for the mev builder participant.
+  # Execution, beacon and validator client targets on prometheus will include this configuration.
+  mev_builder_prometheus_config:
+    # Scrape interval to be used. Default to 15 seconds
+    scrape_interval: 15s
+    # Additional labels to be added. Default to empty
+    labels: {}
+  # Image to use for mev-flood
+  mev_flood_image: flashbots/mev-flood
+  # Extra parameters to send to mev-flood
+  mev_flood_extra_args: []
+  # Number of seconds between bundles for mev-flood
+  mev_flood_seconds_per_bundle: 15
+  # Optional parameters to send to the custom_flood script that sends reliable payloads
+  custom_flood_params:
+    interval_between_transactions: 1

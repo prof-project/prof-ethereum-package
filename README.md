@@ -1,3 +1,18 @@
+# PROF Ethereum Package
+This is a hard fork of the [github.com/ethpandaops/ethereum-package](github.com/ethpandaops/ethereum-package). The main changes are:
+- remove unnecessary elements
+- add the prof-sequencer (https://github.com/prof-project/go-prof-sequencer) to the package
+- add the prof-merger (https://github.com/prof-project/go-bundle-merger) to the package
+- run "https://github.com/prof-project/builder" as a custom builder
+
+## Preconditions
+- make sure you cloned https://github.com/prof-project/builder and ran 'docker build . -t prof-project/prof-builder' inside
+- make sure you cloned https://github.com/prof-project/prof-relay and ran 'docker build . -t prof-project/prof-relay' inside
+
+## How-To
+- run 'make profenv-start' to start Kurtosis and the testnet
+- run 'make profenv-stop' to stop the testnet and Kurtosis 
+
 # Important recent update notes - temporary note
 The `ethereum-package` has been moved to the [ethpandaops organization](https://github.com/ethpandaops/).
 
