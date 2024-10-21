@@ -7,6 +7,7 @@ MAX_CPU = 1000
 MIN_MEMORY = 128
 MAX_MEMORY = 1024
 
+
 def launch_prof_sequencer(
     plan,
     image,
@@ -17,20 +18,15 @@ def launch_prof_sequencer(
         name="prof-sequencer",
         config=ServiceConfig(
             image=image,
-            entrypoint=["/bin/sh", "-c", "touch sequencer.log && tail -F sequencer.log"],
+            entrypoint=[
+                "/bin/sh",
+                "-c",
+                "touch sequencer.log && tail -F sequencer.log",
+            ],
             min_cpu=MIN_CPU,
             max_cpu=MAX_CPU,
             min_memory=MIN_MEMORY,
             max_memory=MAX_MEMORY,
             node_selectors=global_node_selectors,
-        ),
-    )
-
-    plan.exec(
-        service_name="prof-sequencer",
-        recipe=ExecRecipe(
-            command=[
-                "/servicebinary",
-            ]
         ),
     )
