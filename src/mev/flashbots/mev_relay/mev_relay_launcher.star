@@ -135,6 +135,8 @@ def launch_mev_relay(
                 beacon_uris,
                 "--blocksim",
                 builder_uri,
+                "--bundle-merger-url",
+                builder_uri,
             ]
             + mev_params.mev_relay_api_extra_args,
             ports={
