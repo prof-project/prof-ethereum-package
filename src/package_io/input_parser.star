@@ -1009,6 +1009,10 @@ def get_default_mev_params(mev_type, preset):
         "max_mem": 2048,
     }
 
+    prof_sequencer_image = ""  # Set a default value or use a constant
+    prof_sequencer_extra_args = []
+    prof_sequencer_seconds_per_bundle = 1
+
     if mev_type == constants.MEV_RS_MEV_TYPE:
         if preset == "minimal":
             mev_relay_image = constants.DEFAULT_MEV_RS_IMAGE_MINIMAL
@@ -1033,7 +1037,12 @@ def get_default_mev_params(mev_type, preset):
         mev_builder_extra_data = (
             "0x436f6d6d69742d426f6f737420f09f93bb"  # Commit-Boost 📻
         )
-
+        
+    # if mev_type == constants.PROF_MEV_TYPE:
+    #     # Set Prof-specific images and parameters
+    #     prof_sequencer_image = constants.DEFAULT_PROF_SEQUENCER_IMAGE
+    #     prof_merger_image = constants.DEFAULT_PROF_MERGER_IMAGE
+    
     return {
         "mev_relay_image": mev_relay_image,
         "mev_builder_image": mev_builder_image,
@@ -1049,6 +1058,10 @@ def get_default_mev_params(mev_type, preset):
         "mev_flood_extra_args": mev_flood_extra_args,
         "mev_flood_seconds_per_bundle": mev_flood_seconds_per_bundle,
         "mev_builder_prometheus_config": mev_builder_prometheus_config,
+        # Add Prof-specific parameters to the return dictionary
+        "prof_sequencer_image": prof_sequencer_image,
+        "prof_sequencer_extra_args": prof_sequencer_extra_args,
+        "prof_sequencer_seconds_per_bundle": prof_sequencer_seconds_per_bundle,
     }
 
 

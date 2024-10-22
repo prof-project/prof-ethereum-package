@@ -271,13 +271,15 @@ def run(plan, args={}):
             normal_user.private_key,
             global_node_selectors,
         )
-        # PROF specifics
-        prof_sequencer.launch_prof_sequencer(
-            plan,
-            mev_params.prof_sequencer_image,
-            fuzz_target,
-            global_node_selectors,
-        )
+        # Only set up Prof sequencer if it's specified in the YAML
+        if hasattr(args_with_right_defaults, "prof_sequencer_image"):
+            prof_sequencer_params = args_with_right_defaults.prof_sequencer_params
+            prof_sequencer.launch_prof_sequencer(
+                plan,
+                prof_sequencer_params.image,
+                fuzz_target,
+                global_node_selectors,
+            )
         #
         epoch_recipe = GetHttpRequestRecipe(
             endpoint="/eth/v2/beacon/blocks/head",
@@ -736,3 +738,4 @@ def run(plan, args={}):
     )
 
     return output
+
