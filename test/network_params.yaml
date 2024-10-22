@@ -1,20 +1,10 @@
-#ToDo: check if required, else remove
-## Global paarameter to set the exit ip address of services and public ports
-#port_publisher:
-#  # Execution Layer public port exposed to your local machine
-#  # Disabled by default
-#  # Public port start defaults to 32000
-#  # You can't run multiple enclaves on the same port settings
-#  el:
-#    enabled: true
-#    public_port_start: 32000
-#  # Consensus Layer public port exposed to your local machine
-#  # Disabled by default
-#  # Public port start defaults to 33000
-#  # You can't run multiple enclaves on the same port settings
-#  cl:
-#    enabled: true
-#    public_port_start: 33000
+additional_services:
+  - tx_spammer
+  - blob_spammer
+  - custom_flood
+  - el_forkmon
+  - beacon_metrics_gazer
+  - dora
 
 # Supports three valeus
 # Default: "null" - no mev boost, mev builder, mev flood or relays are spun up
@@ -57,12 +47,13 @@ mev_params:
   # Extra parameters to send to mev-flood
   mev_flood_extra_args: []
   # Number of seconds between bundles for mev-flood
-  mev_flood_seconds_per_bundle: 15
+  mev_flood_seconds_per_bundle: 5
   # Optional parameters to send to the custom_flood script that sends reliable payloads
   custom_flood_params:
     interval_between_transactions: 1
   # PROF specifics
   prof_sequencer_image: prof-project/prof-sequencer
-  prof_sequencer_seconds_per_bundle: 1
   prof_sequencer_extra_args: []
+  prof_merger_image: prof-project/prof-merger
+  prof_merger_extra_args: []
   #

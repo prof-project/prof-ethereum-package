@@ -221,7 +221,8 @@ SUBCATEGORY_PARAMS = {
         # PROF specifics
         "prof_sequencer_image",
         "prof_sequencer_extra_args",
-        "prof_sequencer_seconds_per_bundle",
+        "prof_merger_image",
+        "prof_merger_extra_args",
         #
     ],
     "xatu_sentry_params": [

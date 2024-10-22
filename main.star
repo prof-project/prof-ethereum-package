@@ -60,6 +60,7 @@ get_prefunded_accounts = import_module(
 
 # PROF specifics
 prof_sequencer = import_module("./src/mev/prof/sequencer/prof_sequencer_launcher.star")
+prof_merger = import_module("./src/mev/prof/merger/prof_merger_launcher.star")
 #
 
 GRAFANA_USER = "admin"
@@ -272,15 +273,21 @@ def run(plan, args={}):
             global_node_selectors,
         )
         # Only set up Prof sequencer if it's specified in the YAML
-        if hasattr(args_with_right_defaults, "prof_sequencer_image"):
-            prof_sequencer_params = args_with_right_defaults.prof_sequencer_params
+        if mev_params.prof_sequencer_image != "":
             prof_sequencer.launch_prof_sequencer(
                 plan,
-                prof_sequencer_params.image,
+                mev_params.prof_sequencer_image,
                 fuzz_target,
                 global_node_selectors,
             )
-        #
+        # Only set up Prof merger if it's specified in the YAML
+        if mev_params.prof_merger_image != "":
+            prof_merger.launch_prof_merger(
+                plan,
+                mev_params.prof_merger_image,
+                fuzz_target,
+                global_node_selectors,
+            )
         epoch_recipe = GetHttpRequestRecipe(
             endpoint="/eth/v2/beacon/blocks/head",
             port_id=HTTP_PORT_ID_FOR_FACT,
