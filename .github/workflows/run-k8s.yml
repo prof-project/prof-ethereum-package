@@ -3,8 +3,8 @@ name: Run k8s test
 on:
   pull_request:
   workflow_dispatch:
-  schedule:
-    - cron: '0 2 * * *'
+#  schedule:
+#    - cron: '0 2 * * *'
 
 concurrency:
   group: "scheduled-test"
