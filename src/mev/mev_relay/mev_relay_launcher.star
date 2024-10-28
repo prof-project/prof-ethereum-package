@@ -49,6 +49,7 @@ def launch_mev_relay(
     seconds_per_slot,
     persistent,
     global_node_selectors,
+    bundle_merger_url=None,
 ):
     node_selectors = global_node_selectors
     redis = redis_module.run(
@@ -138,6 +139,8 @@ def launch_mev_relay(
                 beacon_uris,
                 "--blocksim",
                 builder_uri,
+                "--bundle-merger-url",
+                bundle_merger_url,
             ]
             + mev_params.mev_relay_api_extra_args,
             ports={

@@ -38,6 +38,9 @@ mev_custom_flood = import_module(
 broadcaster = import_module("./src/broadcaster/broadcaster.star")
 assertoor = import_module("./src/assertoor/assertoor_launcher.star")
 
+# prof_sequencer = import_module("./src/mev/prof/sequencer/prof_sequencer_launcher.star")
+prof_merger = import_module("./src/mev/prof/bundlemerger/prof_bundle_merger_launcher.star")
+
 GRAFANA_USER = "admin"
 GRAFANA_PASSWORD = "admin"
 GRAFANA_DASHBOARD_PATH_URL = "/d/QdTOwy-nz/eth2-merge-kurtosis-module-dashboard?orgId=1"
@@ -204,6 +207,15 @@ def run(plan, args={}):
             normal_user.private_key,
             global_node_selectors,
         )
+        # Only set up Prof merger if it's specified in the YAML
+        if mev_params.prof_merger_image != "":
+            bundle_merger_url = prof_merger.launch_prof_merger(
+                plan,
+                mev_params.prof_merger_image,
+                fuzz_target,
+                global_node_selectors,
+            )
+        # mev_endpoints.append(bundle_merger_url)
         epoch_recipe = GetHttpRequestRecipe(
             endpoint="/eth/v2/beacon/blocks/head",
             port_id=HTTP_PORT_ID_FOR_FACT,
@@ -227,6 +239,7 @@ def run(plan, args={}):
             network_params.seconds_per_slot,
             persistent,
             global_node_selectors,
+            bundle_merger_url,
         )
         mev_flood.spam_in_background(
             plan,
@@ -482,3 +495,4 @@ def run(plan, args={}):
     )
 
     return output
+
