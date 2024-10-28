@@ -206,6 +206,7 @@ def run(plan, args={}):
             contract_owner.private_key,
             normal_user.private_key,
             global_node_selectors,
+            instance_name="mev-flood-1"  # Add unique instance name
         )
         # Only set up Prof merger if it's specified in the YAML
         if mev_params.prof_merger_image != "":
@@ -241,16 +242,6 @@ def run(plan, args={}):
             global_node_selectors,
             bundle_merger_url,
         )
-        
-        # Add sequencer if image is specified
-        # The sequencer spams transactions to the bundle merger
-        if mev_params.prof_sequencer_image != "":
-            prof_sequencer.launch_prof_sequencer(
-                plan,
-                mev_params.prof_sequencer_image,
-                fuzz_target,
-                global_node_selectors,
-            )
 
         mev_flood.spam_in_background(
             plan,
@@ -259,7 +250,56 @@ def run(plan, args={}):
             mev_params.mev_flood_seconds_per_bundle,
             contract_owner.private_key,
             normal_user.private_key,
+            instance_name="mev-flood-1"  # Add same instance name as above
         )
+        
+        # Add sequencer if image is specified
+        # The sequencer spams transactions to the bundle merger
+        contract_owner_two, normal_user_two = genesis_constants.PRE_FUNDED_ACCOUNTS[9:11]  # Use different accounts
+        if mev_params.prof_sequencer_image != "":
+            sequencer_endpoint = prof_sequencer.launch_prof_sequencer(
+                plan,
+                mev_params.prof_sequencer_image,
+                fuzz_target,
+                global_node_selectors,
+            )
+            
+            # Add wait for sequencer to be ready
+            plan.wait(
+                recipe=GetHttpRequestRecipe(
+                    endpoint="/health",  # Adjust this to match your sequencer's health endpoint
+                    port_id="http",     # Adjust port ID if needed
+                ),
+                field="code",
+                assertion="==",
+                target_value=200,
+                timeout="30s",
+                service_name="prof-sequencer"  # Adjust service name if different
+            )
+            
+            # Second mev-flood instance targeting the sequencer
+            mev_flood.launch_mev_flood(
+                plan,
+                mev_params.mev_flood_image,
+                fuzz_target,  # Use fuzz_target as el_uri
+                contract_owner_two.private_key,
+                normal_user_two.private_key,
+                global_node_selectors,
+                sequencer_uri=sequencer_endpoint,  # Add sequencer endpoint
+                instance_name="mev-flood-2"
+            )
+
+            mev_flood.spam_in_background(
+                plan,
+                fuzz_target,  # Use fuzz_target as el_uri
+                mev_params.mev_flood_extra_args,
+                mev_params.mev_flood_seconds_per_bundle,
+                contract_owner_two.private_key,
+                normal_user_two.private_key,
+                sequencer_uri=sequencer_endpoint,  # Add sequencer endpoint
+                instance_name="mev-flood-2"
+            )
+
         mev_endpoints.append(endpoint)
 
     # spin up the mev boost contexts if some endpoints for relays have been passed
@@ -506,4 +546,5 @@ def run(plan, args={}):
     )
 
     return output
+
 

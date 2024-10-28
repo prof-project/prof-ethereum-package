@@ -14,7 +14,7 @@ def launch_prof_sequencer(
     el_uri,
     global_node_selectors,
 ):
-    plan.add_service(
+    service = plan.add_service(
         name="prof-sequencer",
         config=ServiceConfig(
             image=image,
@@ -42,4 +42,9 @@ def launch_prof_sequencer(
                 "uname -a",
             ]
         ),
+    )
+
+    return "http://{0}:{1}".format(
+        service.ip_address,
+        KURTOSIS_API_PORT
     )
