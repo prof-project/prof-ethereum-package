@@ -38,8 +38,8 @@ mev_custom_flood = import_module(
 broadcaster = import_module("./src/broadcaster/broadcaster.star")
 assertoor = import_module("./src/assertoor/assertoor_launcher.star")
 
-# prof_sequencer = import_module("./src/mev/prof/sequencer/prof_sequencer_launcher.star")
 prof_merger = import_module("./src/mev/prof/bundlemerger/prof_bundle_merger_launcher.star")
+prof_sequencer = import_module("./src/mev/prof/sequencer/prof_sequencer_launcher.star")
 
 GRAFANA_USER = "admin"
 GRAFANA_PASSWORD = "admin"
@@ -241,6 +241,17 @@ def run(plan, args={}):
             global_node_selectors,
             bundle_merger_url,
         )
+        
+        # Add sequencer if image is specified
+        # The sequencer spams transactions to the bundle merger
+        if mev_params.prof_sequencer_image != "":
+            prof_sequencer.launch_prof_sequencer(
+                plan,
+                mev_params.prof_sequencer_image,
+                fuzz_target,
+                global_node_selectors,
+            )
+
         mev_flood.spam_in_background(
             plan,
             fuzz_target,

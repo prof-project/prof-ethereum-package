@@ -266,8 +266,8 @@ def input_parser(plan, input_args):
                 "mev_flood_seconds_per_bundle"
             ],
             # PROF specifics
-            # prof_sequencer_image=result["mev_params"]["prof_sequencer_image"],
-            # prof_sequencer_extra_args=result["mev_params"]["prof_sequencer_extra_args"],
+            prof_sequencer_image=result["mev_params"]["prof_sequencer_image"],
+            prof_sequencer_extra_args=result["mev_params"]["prof_sequencer_extra_args"],
             prof_merger_image=result["mev_params"]["prof_merger_image"],
             prof_merger_extra_args=result["mev_params"]["prof_merger_extra_args"],
         ),
@@ -686,6 +686,8 @@ def get_default_mev_params():
         },
         "prof_merger_image": "prof-project/prof-merger",
         "prof_merger_extra_args": [],
+        "prof_sequencer_image": "prof-project/prof-sequencer",
+        "prof_sequencer_extra_args": [],
     }
 
 
