@@ -61,6 +61,7 @@ def spam_in_background(
     seconds_per_bundle, 
     contract_owner, 
     normal_user,
+    send_to="mempool",
     sequencer_uri=None,    # Move optional parameter to the end
     instance_name="mev-flood",  # Add instance_name parameter with default value
 ):
@@ -68,8 +69,8 @@ def spam_in_background(
     command = [
         "/bin/sh",
         "-c",
-        "nohup ./run spam -r {0} -k {1} -u {2} -s {3} -l deployment.json  --secondsPerBundle {3} >main.log 2>&1 &".format(
-            el_uri, owner, user, seconds_per_bundle, sequencer_uri
+        "nohup ./run spam -r {0} -k {1} -u {2} -p {3} -s {4} -f {5} -l deployment.json >main.log 2>&1 &".format(
+            el_uri, owner, user, seconds_per_bundle, send_to, sequencer_uri
         ),
     ]
     if mev_flood_extra_args:

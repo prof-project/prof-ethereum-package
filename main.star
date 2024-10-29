@@ -296,6 +296,7 @@ def run(plan, args={}):
                 mev_params.mev_flood_seconds_per_bundle,
                 contract_owner_two.private_key,
                 normal_user_two.private_key,
+                send_to="prof",
                 sequencer_uri=sequencer_endpoint,  # Add sequencer endpoint
                 instance_name="mev-flood-2"
             )

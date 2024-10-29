@@ -83,7 +83,7 @@ mev_params:
   # mev_builder_prometheus_config:
   #   scrape_interval: 15s
   #   labels: {}
-  mev_flood_image: flashbots/mev-flood
+  mev_flood_image: prof-project/mev-flood
   mev_flood_extra_args: []
   mev_flood_seconds_per_bundle: 1
   mev_boost_image: flashbots/mev-boost
