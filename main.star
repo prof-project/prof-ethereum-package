@@ -262,6 +262,7 @@ def run(plan, args={}):
                 mev_params.prof_sequencer_image,
                 fuzz_target,
                 global_node_selectors,
+                grpc_url=bundle_merger_url,  # Pass the bundle merger URL
             )
             
             # Add wait for sequencer to be ready

@@ -13,12 +13,16 @@ def launch_prof_sequencer(
     image,
     el_uri,
     global_node_selectors,
+    grpc_url="localhost:50051",
 ):
     service = plan.add_service(
         name="prof-sequencer",
         config=ServiceConfig(
             image=image,
-            entrypoint=["/servicebinary"],
+            entrypoint=[
+                "/servicebinary",
+                "-grpc-url=" + grpc_url,
+            ],
             min_cpu=MIN_CPU,
             max_cpu=MAX_CPU,
             min_memory=MIN_MEMORY,
