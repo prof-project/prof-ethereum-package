@@ -18,7 +18,11 @@ def launch_prof_merger(
         name="prof-merger",
         config=ServiceConfig(
             image=image,
-            entrypoint=["/enclave-server"],
+            entrypoint=[
+                "/enclave-server",
+                "--builder-uri",  
+                el_uri,          
+            ],
             min_cpu=MIN_CPU,
             max_cpu=MAX_CPU,
             min_memory=MIN_MEMORY,

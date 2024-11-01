@@ -213,7 +213,7 @@ def run(plan, args={}):
             bundle_merger_url = prof_merger.launch_prof_merger(
                 plan,
                 mev_params.prof_merger_image,
-                fuzz_target,
+                builder_uri,
                 global_node_selectors,
             )
         # mev_endpoints.append(bundle_merger_url)
