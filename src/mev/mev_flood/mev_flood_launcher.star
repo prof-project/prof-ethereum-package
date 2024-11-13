@@ -69,6 +69,7 @@ def spam_in_background(
     command = [
         "/bin/sh",
         "-c",
+        # "nohup ./run spam -r {0} -k {1} -u {2} -p {3} -s {4} -f {5} -t 10 -l deployment.json >main.log 2>&1 &".format(
         "nohup ./run spam -r {0} -k {1} -u {2} -p {3} -s {4} -f {5} -l deployment.json >main.log 2>&1 &".format(
             el_uri, owner, user, seconds_per_bundle, send_to, sequencer_uri
         ),
