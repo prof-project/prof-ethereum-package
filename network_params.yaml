@@ -89,6 +89,7 @@ mev_params:
   mev_flood_seconds_per_bundle: 1
   mev_boost_image: flashbots/mev-boost
   mev_boost_args: ["mev-boost", "--relay-check"]
+  prof_sequencer_image: prof-project/prof-sequencer-noauth
 grafana_additional_dashboards: []
 persistent: false
 xatu_sentry_enabled: false
