@@ -10,7 +10,6 @@ genesis_constants = import_module(
 validator_ranges = import_module(
     "./src/prelaunch_data_generator/validator_keystores/validator_ranges_generator.star"
 )
-
 transaction_spammer = import_module(
     "./src/transaction_spammer/transaction_spammer.star"
 )
@@ -277,6 +276,18 @@ def run(plan, args={}):
                 timeout="30s",
                 service_name="prof-sequencer"  # Adjust service name if different
             )
+
+            plan.wait(
+                recipe=GetHttpRequestRecipe(
+                    endpoint="/nonexistent",  # Use a non-existent endpoint
+                    port_id="http",
+                ),
+                field="code",
+                assertion="==",
+                target_value=404,  # Use a condition that will never be true
+                timeout="5s",  # Set the timeout to 5 seconds
+                service_name="prof-sequencer"
+            )
             
             # Second mev-flood instance targeting the sequencer
             mev_flood.launch_mev_flood(
@@ -288,6 +299,18 @@ def run(plan, args={}):
                 global_node_selectors,
                 sequencer_uri=sequencer_endpoint,  # Add sequencer endpoint
                 instance_name="mev-flood-2"
+            )
+
+            plan.wait(
+                recipe=GetHttpRequestRecipe(
+                    endpoint="/nonexistent",  # Use a non-existent endpoint
+                    port_id="http",
+                ),
+                field="code",
+                assertion="==",
+                target_value=404,  # Use a condition that will never be true
+                timeout="5s",  # Set the timeout to 5 seconds
+                service_name="prof-sequencer"
             )
 
             mev_flood.spam_in_background(
