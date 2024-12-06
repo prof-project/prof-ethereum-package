@@ -267,7 +267,7 @@ def run(plan, args={}):
             # Add wait for sequencer to be ready
             plan.wait(
                 recipe=GetHttpRequestRecipe(
-                    endpoint="/health",  # Adjust this to match your sequencer's health endpoint
+                    endpoint="/sequencer/health",  # Adjust this to match your sequencer's health endpoint
                     port_id="http",     # Adjust port ID if needed
                 ),
                 field="code",
