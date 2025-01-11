@@ -270,6 +270,8 @@ def input_parser(plan, input_args):
             prof_sequencer_extra_args=result["mev_params"]["prof_sequencer_extra_args"],
             prof_merger_image=result["mev_params"]["prof_merger_image"],
             prof_merger_extra_args=result["mev_params"]["prof_merger_extra_args"],
+            prof_spamoor_image=result["mev_params"]["prof_spamoor_image"],
+            prof_spamoor_extra_args=result["mev_params"]["prof_spamoor_extra_args"],
         ),
         tx_spammer_params=struct(
             tx_spammer_extra_args=result["tx_spammer_params"]["tx_spammer_extra_args"],
@@ -688,6 +690,8 @@ def get_default_mev_params():
         "prof_merger_extra_args": [],
         "prof_sequencer_image": "prof-project/prof-sequencer",
         "prof_sequencer_extra_args": [],
+        "prof_spamoor_image": "prof-project/prof-spamoor",
+        "prof_spamoor_extra_args": [],
     }
 
 

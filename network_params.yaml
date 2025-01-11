@@ -90,6 +90,8 @@ mev_params:
   mev_boost_image: flashbots/mev-boost
   mev_boost_args: ["mev-boost", "--relay-check"]
   prof_sequencer_image: prof-project/prof-sequencer-noauth
+  prof_spamoor_image: prof-project/prof-spamoor
+  prof_spamoor_extra_args: []
 grafana_additional_dashboards: []
 persistent: false
 xatu_sentry_enabled: false

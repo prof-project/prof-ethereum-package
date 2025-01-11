@@ -39,6 +39,7 @@ assertoor = import_module("./src/assertoor/assertoor_launcher.star")
 
 prof_merger = import_module("./src/mev/prof/bundlemerger/prof_bundle_merger_launcher.star")
 prof_sequencer = import_module("./src/mev/prof/sequencer/prof_sequencer_launcher.star")
+prof_spamoor = import_module("./src/mev/prof/spamoor/prof_spamoor_launcher.star")
 
 GRAFANA_USER = "admin"
 GRAFANA_PASSWORD = "admin"
@@ -289,41 +290,50 @@ def run(plan, args={}):
                 service_name="prof-sequencer"
             )
             
-            # Second mev-flood instance targeting the sequencer
-            mev_flood.launch_mev_flood(
+            # # Second mev-flood instance targeting the sequencer
+            # mev_flood.launch_mev_flood(
+            #     plan,
+            #     mev_params.mev_flood_image,
+            #     fuzz_target,  # Use fuzz_target as el_uri
+            #     contract_owner_two.private_key,
+            #     normal_user_two.private_key,
+            #     global_node_selectors,
+            #     sequencer_uri=sequencer_endpoint,  # Add sequencer endpoint
+            #     instance_name="mev-flood-2"
+            # )
+
+            # plan.wait(
+            #     recipe=GetHttpRequestRecipe(
+            #         endpoint="/nonexistent",  # Use a non-existent endpoint
+            #         port_id="http",
+            #     ),
+            #     field="code",
+            #     assertion="==",
+            #     target_value=404,  # Use a condition that will never be true
+            #     timeout="5s",  # Set the timeout to 5 seconds
+            #     service_name="prof-sequencer"
+            # )
+
+            prof_spamoor.launch_prof_spamoor(
                 plan,
-                mev_params.mev_flood_image,
+                mev_params.prof_spamoor_image,
                 fuzz_target,  # Use fuzz_target as el_uri
                 contract_owner_two.private_key,
-                normal_user_two.private_key,
                 global_node_selectors,
-                sequencer_uri=sequencer_endpoint,  # Add sequencer endpoint
-                instance_name="mev-flood-2"
+                sequencer_endpoint,  # Add sequencer endpoint
             )
 
-            plan.wait(
-                recipe=GetHttpRequestRecipe(
-                    endpoint="/nonexistent",  # Use a non-existent endpoint
-                    port_id="http",
-                ),
-                field="code",
-                assertion="==",
-                target_value=404,  # Use a condition that will never be true
-                timeout="5s",  # Set the timeout to 5 seconds
-                service_name="prof-sequencer"
-            )
-
-            mev_flood.spam_in_background(
-                plan,
-                fuzz_target,  # Use fuzz_target as el_uri
-                mev_params.mev_flood_extra_args,
-                mev_params.mev_flood_seconds_per_bundle,
-                contract_owner_two.private_key,
-                normal_user_two.private_key,
-                send_to="prof",
-                sequencer_uri=sequencer_endpoint,  # Add sequencer endpoint
-                instance_name="mev-flood-2"
-            )
+            # mev_flood.spam_in_background(
+            #     plan,
+            #     fuzz_target,  # Use fuzz_target as el_uri
+            #     mev_params.mev_flood_extra_args,
+            #     mev_params.mev_flood_seconds_per_bundle,
+            #     contract_owner_two.private_key,
+            #     normal_user_two.private_key,
+            #     send_to="prof",
+            #     sequencer_uri=sequencer_endpoint,  # Add sequencer endpoint
+            #     instance_name="mev-flood-2"
+            # )
 
         mev_endpoints.append(endpoint)
 
